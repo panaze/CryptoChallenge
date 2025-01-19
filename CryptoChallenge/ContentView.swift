@@ -8,17 +8,31 @@
 import SwiftUI
 
 struct ContentView: View {
+    let coins: [Coin]
+    
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
+        NavigationStack {
+            List(coins, id: \.id) { coin in
+                NavigationLink(destination: CoinDetailsView(coin: coin)) {
+                    
+                    // Overview
+                    VStack(alignment: .leading) {
+                        Text(coin.name)
+                            .font(.headline)
+                        Text(coin.symbol.uppercased())
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                    
+                }
+            }
+            .navigationTitle("Explore")
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .padding()
+
     }
 }
 
 #Preview {
-    ContentView()
+    ContentView(coins: Coin.mockCoins)
 }
