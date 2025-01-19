@@ -11,7 +11,7 @@ import SwiftUI
 struct CryptoChallengeApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(coins: Coin.mockCoins)
         }
     }
 }
