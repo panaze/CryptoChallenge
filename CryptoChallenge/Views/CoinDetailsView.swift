@@ -11,20 +11,26 @@ struct CoinDetailsView: View {
     let coin: Coin
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                
-                if let price = coin.currentPrice {
-                    Text("Current Price: $\(price, specifier: "%.2f")")
-                        .font(.title2)
-                        .foregroundColor(.primary)
+        ZStack{
+            
+            AnimatedMeshGradient()
+            
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    
+                    if let price = coin.currentPrice {
+                        Text("Current Price: $\(price, specifier: "%.2f")")
+                            .font(.title2)
+                            .foregroundColor(.primary)
+                    }
+                    
                 }
-                
+                .padding()
             }
-            .padding()
+            .navigationTitle(coin.name)
+            .navigationBarTitleDisplayMode(.inline)
         }
-        .navigationTitle(coin.name)
-        .navigationBarTitleDisplayMode(.inline)
+       
     }
 }
 
