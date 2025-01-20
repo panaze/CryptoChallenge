@@ -61,7 +61,9 @@ struct CoinRowComponent: View {
             
             VStack(alignment: .trailing) {
                 if let price = coin.currentPrice {
-                    Text("$\(formatCoinValue(price, displayMode: .row))")
+                    Text(formatCoinValue(price,
+                                         displayMode: .row,
+                                         options: .currencyWithoutCode))
                         .font(.headline)
                 }
                 

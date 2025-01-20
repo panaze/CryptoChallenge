@@ -9,11 +9,11 @@ import SwiftUI
 import SwiftData
 
 struct CoinListView: View {
-
+    
     // A binding to the user-selected mode (all, favorites, priceChange)
     @Binding var displayMode: DisplayMode
     @State var coinsToDisplay = Coin.mockCoins
-
+    
     var body: some View {
         List {
             ForEach(coinsToDisplay) { coin in
@@ -21,13 +21,14 @@ struct CoinListView: View {
                     CoinDetailsView(coin: coin)
                 } label: {
                     CoinRowComponent(coin: coin)
+                        .padding(.vertical, 6)
+                        .padding(.horizontal, 2)
                 }
-                .padding(.vertical, 6)
-                .padding(.horizontal, 2)
+                
             }
         }
     }
-    // The modes we support
+    // The modes supported
     enum DisplayMode {
         case all
         case favorites

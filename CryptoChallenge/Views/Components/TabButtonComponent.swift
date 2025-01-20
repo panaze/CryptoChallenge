@@ -32,7 +32,8 @@ struct TabButtonComponent: View {
             .cornerRadius(20)
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(isSelected ? Color.accentColor : Color.gray, lineWidth: 0.5)
+                    .stroke(isSelected ? Color.accentColor : Color.gray, lineWidth: 1)
+                    .opacity(isSelected ? 1 : 0.5)
             )
         }
         .controlSize(.small)
