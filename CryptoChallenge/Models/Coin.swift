@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Coin {
+class Coin: Identifiable {
     //Basic identifiable properties
     var id: String
     var symbol: String
@@ -170,7 +170,7 @@ extension Coin {
                 high24h: 2050.0,
                 low24h: 1950.0,
                 priceChange24h: 50.0,
-                priceChangePercentage24h: 2.5,
+                priceChangePercentage24h: -2.5,
                 ath: 4800.0,
                 athChangePercentage: -58.3,
                 athDate: Date(timeIntervalSince1970: 1637452800),
@@ -193,7 +193,7 @@ extension Coin {
                 high24h: 0.085,
                 low24h: 0.075,
                 priceChange24h: 0.005,
-                priceChangePercentage24h: 6.25,
+                priceChangePercentage24h: 0,
                 ath: 0.74,
                 athChangePercentage: -89.19,
                 athDate: Date(timeIntervalSince1970: 1621468800),

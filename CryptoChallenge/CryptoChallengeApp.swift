@@ -9,9 +9,18 @@ import SwiftUI
 
 @main
 struct CryptoChallengeApp: App {
+    @State private var showSplash = true
+    
     var body: some Scene {
         WindowGroup {
-            ContentView(coins: Coin.mockCoins)
+            if showSplash {
+                SplashScreenView(showSplash: $showSplash)
+                    .preferredColorScheme(.dark)
+            } else {
+                ContentView(coins: Coin.mockCoins)
+                    .preferredColorScheme(.dark)
+            }
+            
         }
     }
 }
