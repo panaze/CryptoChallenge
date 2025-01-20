@@ -17,13 +17,12 @@ struct TabButtonComponent: View {
             HStack {
                 Image(systemName: iconName)
                     .foregroundColor(isSelected ? .black : .white)
-                    .fontWeight(isSelected ? .bold : .medium)
-                
+                    .fontWeight(isSelected ? .semibold : .medium)
                 
                 if isSelected {
                     Text(title)
                         .foregroundColor(isSelected ? .black : .white)
-                        .fontWeight(isSelected ? .bold : .medium)
+                        .fontWeight(isSelected ? .semibold: .medium)
                         .transition(.opacity.combined(with: .scale))
                 }
             }
