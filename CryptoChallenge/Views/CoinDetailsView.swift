@@ -130,29 +130,6 @@ struct CoinDetailsView: View {
                     .background(RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor")))
                     
                     
-                    if viewModel.isLoading == false {
-                        VStack(alignment: .leading){
-                            Text("Related News")
-                                .font(.title2)
-                                .bold()
-                            
-                            
-                            ForEach(viewModel.newsArticles) { article in
-                                NewsArticleRowView(article: article)
-                                    .padding(.top, 4)
-                                    .onTapGesture {
-                                        if let urlStr = article.url,
-                                           let url = URL(string: urlStr) {
-                                            UIApplication.shared.open(url)
-                                        }
-                                    }
-                            }
-                            
-                        }
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor")))
-                    }
-                    
                 }
                 .scrollIndicators(.hidden)
                 
@@ -162,11 +139,6 @@ struct CoinDetailsView: View {
         .padding(.horizontal)
         .navigationTitle(viewModel.coin.name)
         .navigationBarTitleDisplayMode(.inline)
-        .onAppear {
-            Task{
-                await viewModel.fetchNewsArticles()
-            }
-        }
     }
     
 }

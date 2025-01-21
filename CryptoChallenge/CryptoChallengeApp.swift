@@ -19,7 +19,7 @@ struct CryptoChallengeApp: App {
                     .preferredColorScheme(.dark)
             } else {
                 ContentView()
-                    .modelContainer(for: [Coin.self, NewsArticle.self])
+                    .modelContainer(for: [Coin.self])
                     .preferredColorScheme(.dark)
             }
         }

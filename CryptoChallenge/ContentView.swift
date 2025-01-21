@@ -23,7 +23,7 @@ struct ContentView: View {
     init() {
         // If ModelContainer(for:) throws, handle it safely:
         do {
-            let container = try ModelContainer(for: Coin.self, NewsArticle.self)
+            let container = try ModelContainer(for: Coin.self)
             let dummyContext = ModelContext(container)
             _viewModel = StateObject(
                 wrappedValue: CoinListViewModel(context: dummyContext)
@@ -105,6 +105,7 @@ struct ContentView: View {
                                 await viewModel.fetchCoins()
                             }
                         }
+                        .scrollIndicators(.hidden)
                         .scrollContentBackground(.hidden)
                         .navigationTitle("Explore")
                         .navigationBarTitleDisplayMode(.inline)
@@ -138,11 +139,6 @@ struct ContentView: View {
             }
         }
     }
-}
-
-// Display mode enumeration
-enum DisplayMode {
-    case all, favorites, priceChange
 }
 
 /*

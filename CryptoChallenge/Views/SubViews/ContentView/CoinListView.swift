@@ -11,8 +11,6 @@ import SwiftData
 struct CoinListView: View {
     @ObservedObject var viewModel: CoinListViewModel
     
-    
-    // A binding to the user-selected mode (all, favorites, priceChange)
     @Binding var displayMode: DisplayMode
     
     var body: some View {
@@ -27,38 +25,66 @@ struct CoinListView: View {
                         .padding(.vertical, 6)
                         .padding(.horizontal, 2)
                 }
-                
+            }
+        }
+        .overlay {
+            if coinsToDisplay.isEmpty {
+                contentUnavailableView
             }
         }
     }
     
-    // Decide which coins to show based on the display mode
     private var coinsToDisplay: [Coin] {
         switch displayMode {
         case .all:
-            // Applies search filtering (from viewModel.filteredCoins)
             return viewModel.filteredCoins
         case .favorites:
-            // Only favorites
             return viewModel.favoriteCoins
         case .priceChange:
-            // Sort by priceChangePercentage24h (descending: highest first)
             return viewModel.filteredCoins.sorted {
-                // If either is nil, treat it as very low
                 let lhs = $0.priceChangePercentage24h ?? -Double.greatestFiniteMagnitude
                 let rhs = $1.priceChangePercentage24h ?? -Double.greatestFiniteMagnitude
-                return lhs > rhs  // descending
+                return lhs > rhs
             }
         }
     }
     
-    // The modes supported
+    private var contentUnavailableView: some View {
+        switch displayMode {
+        case .all:
+            return ContentUnavailableView {
+                Label("No Coins Found", systemImage: "exclamationmark.triangle")
+            } description: {
+                Text("Try adjusting your search or check back later.")
+            }
+            .padding()
+        case .favorites:
+            return ContentUnavailableView {
+                Label("No Favorites", systemImage: "star.slash")
+            } description: {
+                Text("Mark coins as favorites to see them here.")
+            }
+            .padding()
+        case .priceChange:
+            return ContentUnavailableView {
+                Label("No Price Data", systemImage: "chart.line.uptrend.xyaxis")
+            } description: {
+                Text("There is no price change data available at the moment.")
+            }
+            .padding()
+        }
+    }
+    
+    // The modes we support
     enum DisplayMode {
         case all
         case favorites
         case priceChange
     }
 }
+
+
+
 
 /*
 #Preview {
