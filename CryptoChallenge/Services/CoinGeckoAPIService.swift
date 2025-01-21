@@ -33,7 +33,7 @@ final class CoinGeckoService {
 
         //Decode into DTO
         let decoded = try JSONDecoder().decode([CoinDTO].self, from: data)
-        
+        /*
         print("Decoded CoinGecko Response:")
         for coin in decoded {
             print("""
@@ -52,6 +52,7 @@ final class CoinGeckoService {
             Last Updated: \(coin.last_updated ?? "N/A")
             """)
         }
+        */
         
         let coins = decoded.map { dto in
             Coin(

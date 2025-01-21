@@ -9,16 +9,19 @@ import SwiftUI
 import SwiftData
 
 struct CoinListView: View {
+    @ObservedObject var viewModel: CoinListViewModel
+    
     
     // A binding to the user-selected mode (all, favorites, priceChange)
     @Binding var displayMode: DisplayMode
-    @State var coinsToDisplay = Coin.mockCoins
     
     var body: some View {
         List {
             ForEach(coinsToDisplay) { coin in
                 NavigationLink {
-                    CoinDetailsView(coin: coin)
+                    CoinDetailsView(
+                        viewModel: CoinDetailViewModel(coin: coin, context: viewModel.context)
+                    )
                 } label: {
                     CoinRowComponent(coin: coin)
                         .padding(.vertical, 6)
@@ -28,6 +31,27 @@ struct CoinListView: View {
             }
         }
     }
+    
+    // Decide which coins to show based on the display mode
+    private var coinsToDisplay: [Coin] {
+        switch displayMode {
+        case .all:
+            // Applies search filtering (from viewModel.filteredCoins)
+            return viewModel.filteredCoins
+        case .favorites:
+            // Only favorites
+            return viewModel.favoriteCoins
+        case .priceChange:
+            // Sort by priceChangePercentage24h (descending: highest first)
+            return viewModel.filteredCoins.sorted {
+                // If either is nil, treat it as very low
+                let lhs = $0.priceChangePercentage24h ?? -Double.greatestFiniteMagnitude
+                let rhs = $1.priceChangePercentage24h ?? -Double.greatestFiniteMagnitude
+                return lhs > rhs  // descending
+            }
+        }
+    }
+    
     // The modes supported
     enum DisplayMode {
         case all
@@ -36,6 +60,7 @@ struct CoinListView: View {
     }
 }
 
+/*
 #Preview {
     struct Preview: View {
         var body: some View {
@@ -46,4 +71,4 @@ struct CoinListView: View {
     
     return Preview()
 }
-
+*/

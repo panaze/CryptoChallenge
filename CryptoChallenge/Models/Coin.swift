@@ -4,12 +4,13 @@
 //
 //  Created by Pablo Navarro Zepeda on 19/01/25.
 //
-
+import SwiftData
 import Foundation
 
-class Coin: Identifiable {
+@Model
+class Coin {
     //Basic identifiable properties
-    var id: String
+    @Attribute(.unique) var id: String
     var symbol: String
     var name: String
     var image: String?
@@ -120,7 +121,7 @@ extension Coin {
             symbol: "btc",
             name: "Bitcoin",
             image: "https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400",
-            imageData: nil, // Add a placeholder for image data
+            imageData: nil,
             currentPrice: 35000.0,
             marketCap: 650000000000.0,
             marketCapRank: 1,

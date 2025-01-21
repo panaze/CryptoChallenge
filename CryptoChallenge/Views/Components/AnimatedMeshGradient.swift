@@ -9,7 +9,6 @@ import SwiftUI
 
 struct AnimatedMeshGradient: View {
     
-    @Environment(\.colorScheme) private var colorScheme
     
     @State var appear = false
     
@@ -24,8 +23,8 @@ struct AnimatedMeshGradient: View {
             ],
             colors: [
                 .accent, .accent, .accent,
-                colorScheme == .dark ? .black : .white, colorScheme == .dark ? .black : .white, colorScheme == .dark ? .black : .white,
-                colorScheme == .dark ? .black : .white, colorScheme == .dark ? .black : .white, colorScheme == .dark ? .black : .white
+                .black, .black,  .black,
+                .black, .black, .black
             ])
         .blur(radius: 50)
         .ignoresSafeArea(.all)

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @main
 struct CryptoChallengeApp: App {
@@ -16,38 +17,12 @@ struct CryptoChallengeApp: App {
             if showSplash {
                 SplashScreenView(showSplash: $showSplash)
                     .preferredColorScheme(.dark)
-                    .onAppear {
-                        testServices()
-                    }
             } else {
-                ContentView(coins: Coin.mockCoins)
+                ContentView()
+                    .modelContainer(for: [Coin.self, NewsArticle.self])
                     .preferredColorScheme(.dark)
-                    .onAppear {
-                        testServices()
-                    }
             }
         }
     }
     
-    private func testServices() {
-        Task {
-            // Test CoinGeckoService
-            do {
-                let coinGeckoService = CoinGeckoService()
-                let coins = try await coinGeckoService.fetchCoins()
-                print("Fetched Coins: \(coins)")
-            } catch {
-                print("Error fetching coins: \(error)")
-            }
-            
-            // Test NewsAPIService
-            do {
-                let newsAPIService = NewsAPIService()
-                let articles = try await newsAPIService.fetchNews(for: "cryptocurrency")
-                print("Fetched Articles: \(articles)")
-            } catch {
-                print("Error fetching news: \(error)")
-            }
-        }
-    }
 }

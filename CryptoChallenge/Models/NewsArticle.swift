@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import SwiftData
 
+@Model
 class NewsArticle {
     //Basic identifiable properties
-    var id: UUID
+    @Attribute(.unique) var id: UUID
     var sourceName: String?
     var author: String?
     var title: String?
@@ -53,7 +55,7 @@ extension NewsArticle: Identifiable {
             descriptionText: "Apple has unveiled its latest iPhone model, featuring groundbreaking new technologies.",
             url: "https://techcrunch.com/article/apple-new-iphone",
             urlToImage: "https://techcrunch.com/images/article/iphone.png",
-            publishedAt: Date(timeIntervalSinceNow: -3600), // Published 1 hour ago
+            publishedAt: Date(timeIntervalSinceNow: -3600),
             content: "Apple has just revealed its latest flagship device at their annual event..."
         )
     }
