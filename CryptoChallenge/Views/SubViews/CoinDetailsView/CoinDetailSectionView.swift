@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CoinDetailSection: View {
     let coin: Coin
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             StatSectionComponent(
@@ -41,7 +41,7 @@ struct CoinDetailSection: View {
                     )
                 ]
             )
-
+            
             StatSectionComponent(
                 title: "Market Cap Changes (24h)",
                 items: [
@@ -59,7 +59,7 @@ struct CoinDetailSection: View {
                     )
                 ]
             )
-
+            
             StatSectionComponent(
                 title: "Additional Information",
                 items: [
@@ -78,9 +78,9 @@ struct CoinDetailSection: View {
                 ]
             )
         }
-        .padding()
     }
 }
 #Preview {
     CoinDetailSection(coin: Coin.mockCoin)
+        .preferredColorScheme(.dark)
 }

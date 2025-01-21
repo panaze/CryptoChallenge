@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CoinOverviewSection: View {
     let coin: Coin
-
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 25) {
             StatSectionComponent(
@@ -35,7 +35,7 @@ struct CoinOverviewSection: View {
                     )
                 ]
             )
-
+            
             StatSectionComponent(
                 title: "Price Range (24h)",
                 items: [
@@ -69,13 +69,8 @@ struct CoinOverviewSection: View {
     }
 }
 
-struct CoinOverviewSection_Previews: PreviewProvider {
-    static var previews: some View {
-        CoinOverviewSection(coin: Coin.mockCoin)
-    }
-}
-
 
 #Preview {
     CoinOverviewSection(coin: Coin.mockCoin)
+        .preferredColorScheme(.dark)
 }

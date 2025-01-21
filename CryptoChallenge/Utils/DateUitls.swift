@@ -19,7 +19,7 @@ struct DateUtils {
         formatter.formatOptions = [.withInternetDateTime, .withTimeZone]
         return formatter
     }()
-
+    
     
     static func format(isoString: String, toFormat: String = "dd MMM HH:mm") -> String? {
         guard let date = isoFormatter.date(from: isoString) else {
@@ -29,7 +29,7 @@ struct DateUtils {
         shared.dateFormat = toFormat
         return shared.string(from: date)
     }
-
+    
     
     // For Date objects
     static func format(_ date: Date, format: String = "dd MMM HH:mm") -> String {

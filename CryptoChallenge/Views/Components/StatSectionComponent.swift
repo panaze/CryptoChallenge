@@ -33,7 +33,7 @@ struct StatSectionComponent: View {
     // Helper function to determine color based on percentage
     private func color(for item: StatItem) -> Color {
         guard item.isPercentage, let changePercentage = item.changePercentage else {
-            return .primary // Default color for non-percentage items
+            return .primary
         }
         if changePercentage > 0 {
             return .green
@@ -63,5 +63,6 @@ struct StatItem: Identifiable {
             StatItem(label: "Total Volume", value: "$500,000,000", isPercentage: false, changePercentage: nil)
         ]
     )
+    .preferredColorScheme(.dark)
 }
 

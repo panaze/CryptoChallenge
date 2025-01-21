@@ -11,7 +11,7 @@ struct TabButtonComponent: View {
     let iconName: String
     let isSelected: Bool
     let action: () -> Void
-
+    
     var body: some View {
         Button(action: action) {
             HStack {
@@ -44,21 +44,22 @@ struct TabButtonComponent: View {
 #Preview {
     struct Preview: View {
         @State private var selectedIndex: Int = 0
-
+        
         var body: some View {
             HStack(spacing: 10) {
                 TabButtonComponent(title: "All", iconName: "globe", isSelected: selectedIndex == 0) {
                     selectedIndex = 0
                 }
-
+                
                 TabButtonComponent(title: "Favorites", iconName: "star.fill", isSelected: selectedIndex == 1) {
                     selectedIndex = 1
                 }
-
+                
                 TabButtonComponent(title: "Price %", iconName: "chart.line.uptrend.xyaxis", isSelected: selectedIndex == 2) {
                     selectedIndex = 2
                 }
             }
+            .preferredColorScheme(.dark)
             .padding()
         }
     }

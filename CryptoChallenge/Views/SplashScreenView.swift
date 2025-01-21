@@ -30,9 +30,10 @@ struct SplashScreenView: View {
         @State var showSplash: Bool = true
         var body: some View {
             SplashScreenView(showSplash: $showSplash)
+                .preferredColorScheme(.dark)
         }
     }
-
+    
     return Preview()
 }
 

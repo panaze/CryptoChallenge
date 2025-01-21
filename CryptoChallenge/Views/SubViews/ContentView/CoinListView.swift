@@ -40,6 +40,7 @@ struct CoinListView: View {
     struct Preview: View {
         var body: some View {
             CoinListView(displayMode: .constant(.all))
+                .preferredColorScheme(.dark)
         }
     }
     

@@ -101,4 +101,5 @@ enum DisplayMode {
 
 #Preview {
     ContentView(coins: Coin.mockCoins)
+        .preferredColorScheme(.dark)
 }

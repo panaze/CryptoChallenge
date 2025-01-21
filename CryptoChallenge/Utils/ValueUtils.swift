@@ -24,6 +24,7 @@ struct CurrencyFormatOptions {
 /// Formats a numeric value according to display mode and currency options.
 /// Row mode: Compact format with abbreviations (e.g., $24M, $35.6M USD)
 /// Detail mode: Full format with more precision (e.g., $24,000,000.00 USD)
+
 func formatCoinValue(
     _ value: Double?,
     displayMode: DisplayPriceMode,
