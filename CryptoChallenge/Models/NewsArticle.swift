@@ -20,7 +20,7 @@ class NewsArticle {
     var content: String?
     
     //Initializer
-    init(id: UUID,
+    init(id: UUID = UUID(),
          sourceName: String? = nil,
          author: String? = nil,
          title: String? = nil,
