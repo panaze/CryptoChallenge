@@ -39,5 +39,5 @@ struct AnimatedMeshGradient: View {
 
 #Preview {
     AnimatedMeshGradient()
-
+        .preferredColorScheme(.dark)
 }

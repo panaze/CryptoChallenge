@@ -20,31 +20,26 @@ struct CoinRowComponent: View {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 35, height: 35)
-                        .clipShape(Circle())
                 } else {
                     // Download on the fly
                     AsyncImage(url: URL(string: coin.image ?? "")) { phase in
                         switch phase {
+                        case .empty:
+                            ProgressView()
+                            
                         case .success(let image):
                             image
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 35, height: 35)
-                            
-                        case .failure:
-                            Image(systemName: "photo")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 35, height: 35)
-                                .foregroundColor(.red)
                             
                         default:
-                            // .empty or .placeholder
-                            ProgressView()
-                                .frame(width: 35, height: 35)
+                            NotAvailableView()
+                            
                         }
                     }
+                    .clipShape(Circle())
+                    .frame(width: 35, height: 35)
+                    
                 }
                 
                 VStack(alignment: .leading) {
@@ -61,8 +56,10 @@ struct CoinRowComponent: View {
             
             VStack(alignment: .trailing) {
                 if let price = coin.currentPrice {
-                    Text("$\(formatCoinValue(price, displayMode: .row))")
-                        .font(.headline)
+                    Text(formatCoinValue(price,
+                                         displayMode: .row,
+                                         options: .currencyWithoutCode))
+                    .font(.headline)
                 }
                 
                 if let changePercentage = coin.priceChangePercentage24h {
@@ -81,4 +78,5 @@ struct CoinRowComponent: View {
 
 #Preview {
     CoinRowComponent(coin: Coin.mockCoin)
+        .preferredColorScheme(.dark)
 }

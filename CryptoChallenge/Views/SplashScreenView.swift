@@ -12,13 +12,7 @@ struct SplashScreenView: View {
     
     var body: some View {
         ZStack{
-            Image("Logo")
-                .resizable()
-                .scaledToFit()
-                .frame(width: 100, height: 100)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                .shadow(radius: 10)
+            RoundedImageView(imageData: nil, fallbackURL: nil, assetName: "Logo")
         }
         .onAppear {
             // Automatically transition to MainView after 2 seconds
@@ -31,6 +25,16 @@ struct SplashScreenView: View {
     }
 }
 
-
+#Preview {
+    struct Preview: View {
+        @State var showSplash: Bool = true
+        var body: some View {
+            SplashScreenView(showSplash: $showSplash)
+                .preferredColorScheme(.dark)
+        }
+    }
+    
+    return Preview()
+}
 
 

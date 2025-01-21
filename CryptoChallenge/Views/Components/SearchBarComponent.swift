@@ -31,7 +31,7 @@ struct SearchBarComponent: View {
             }
         }
         .padding(10)
-        .background(RoundedRectangle(cornerRadius: 15).fill(Color(.systemGray6)))
+        .background(RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor")))
         .padding(.horizontal)
     }
 }
@@ -42,9 +42,10 @@ struct SearchBarComponent: View {
         @State var text: String = ""
         var body: some View {
             SearchBarComponent(text: $text)
+                .preferredColorScheme(.dark)
         }
     }
     
     return Preview()
 }
-   
+
