@@ -61,6 +61,30 @@ struct CoinDetailSection: View {
             )
             
             StatSectionComponent(
+                title: "Supply",
+                items: [
+                    StatItem(
+                        label: "Circulating Supply",
+                        value: formatCoinValue(coin.circulatingSupply ?? 0, displayMode: .row, options: .numeric),
+                        isPercentage: false,
+                        changePercentage: nil
+                    ),
+                    StatItem(
+                        label: "Total Supply",
+                        value: formatCoinValue(coin.totalSupply ?? 0, displayMode: .row, options: .numeric),
+                        isPercentage: false,
+                        changePercentage: nil
+                    ),
+                    StatItem(
+                        label: "Max Supply",
+                        value: formatCoinValue(coin.maxSupply ?? 0, displayMode: .row, options: .numeric),
+                        isPercentage: false,
+                        changePercentage: nil
+                    ),
+                ]
+            )
+            
+            StatSectionComponent(
                 title: "Additional Information",
                 items: [
                     StatItem(
