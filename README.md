@@ -28,10 +28,9 @@ An iOS application designed to provide updated cryptocurrency data, with a focus
 
 ---
 
-## Demo
+## Demo Video
 
-![CryptoTracker Demo](https://via.placeholder.com/1024x768)  
-*Demo showcasing the app's features and flow.*
+[![CryptoTracker Demo](https://img.youtube.com/vi/O1FYuPTdoZM/0.jpg)](https://www.youtube.com/watch?v=O1FYuPTdoZM) 
 
 ### Demo Flow
 1. Navigate through the entire app.
