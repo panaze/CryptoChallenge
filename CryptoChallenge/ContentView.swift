@@ -6,15 +6,33 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
-    @Environment(\.colorScheme) private var colorScheme
     
-    @State var text: String = ""
+    @Environment(\.modelContext) private var context
+    
+    // We'll store our main view model as a StateObject so it persists
+    @StateObject private var viewModel: CoinListViewModel
+    
+    // Network monitoring only in ContentView
+    @StateObject private var networkMonitor = NetworkMonitor()
+    
     @State private var displayMode: CoinListView.DisplayMode = .all
-    @State private var wifi: Bool = true
     
-    let coins: [Coin]
+    init() {
+        // If ModelContainer(for:) throws, handle it safely:
+        do {
+            let container = try ModelContainer(for: Coin.self)
+            let dummyContext = ModelContext(container)
+            _viewModel = StateObject(
+                wrappedValue: CoinListViewModel(context: dummyContext)
+            )
+        } catch {
+            // If container creation fails, decide how to handle.
+            fatalError("Failed to create ModelContainer: \(error)")
+        }
+    }
     
     var body: some View {
         NavigationStack {
@@ -26,7 +44,7 @@ struct ContentView: View {
                 VStack(alignment: .leading) {
                     
                     //SEARCH BAR
-                    SearchBarComponent(text: $text)
+                    SearchBarComponent(text: $viewModel.searchText)
                     
                     
                     // TAB BAR
@@ -63,14 +81,16 @@ struct ContentView: View {
                         //WIFI AND FETCH INFO
                         HStack() {
                             
-                            Image(systemName: wifi ? "wifi" : "wifi.slash")
-                                .foregroundColor(wifi ? .green : .red)
-                                .animation(.easeInOut(duration: 0.3), value: wifi)
+                            Image(systemName: networkMonitor.isConnected ? "wifi" : "wifi.slash")
+                                .foregroundColor(networkMonitor.isConnected ? .green : .red)
+                                .animation(.easeInOut(duration: 0.3), value: networkMonitor.isConnected)
                             
+                            if let date = viewModel.lastUpdated {
+                                Text("Last updated\n \(DateUtils.format(date))")
+                                    .font(.caption)
+                                    .fontWeight(.semibold)
+                            }
                             
-                            Text("Last updated\n \(DateUtils.format(Date()))")
-                                .font(.caption)
-                                .fontWeight(.semibold)
                         }
                         
                     }
@@ -79,7 +99,26 @@ struct ContentView: View {
                     
                     
                     //LIST OF COINS
-                    CoinListView(displayMode: $displayMode)
+                    CoinListView(viewModel: viewModel, displayMode: $displayMode)
+                        .refreshable {
+                            if networkMonitor.isConnected {
+                                await viewModel.fetchCoins()
+                            }
+                        }
+                        .mask(
+                            LinearGradient(
+                                gradient: Gradient(stops: [
+                                    .init(color: .clear, location: 0.0),
+                                    .init(color: .black, location: 0.02),
+                                    .init(color: .black, location: 0.98),
+                                    .init(color: .clear, location: 1.0)
+                                ]),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .safeAreaPadding(.top, 10)
+                        .scrollIndicators(.hidden)
                         .scrollContentBackground(.hidden)
                         .navigationTitle("Explore")
                         .navigationBarTitleDisplayMode(.inline)
@@ -88,18 +127,38 @@ struct ContentView: View {
                 
                 
             }
+            .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
+                Alert(
+                    title: Text("Error"),
+                    message: Text(viewModel.errorMessage ?? ""),
+                    dismissButton: .default(Text("OK")) {
+                        viewModel.errorMessage = nil
+                    }
+                )
+            }
             
         }
-        
+        .onAppear{
+            // Reassign actual context from environment
+            viewModel.context = context
+            
+            
+            // Optionally skip fetch if offline
+            if networkMonitor.isConnected {
+                Task {
+                    await viewModel.fetchCoins()
+                }
+            } else {
+                print("Skipping fetch because offline")
+            }
+            
+        }
     }
 }
 
-// Display mode enumeration
-enum DisplayMode {
-    case all, favorites, priceChange
-}
-
-#Preview {
-    ContentView(coins: Coin.mockCoins)
-        .preferredColorScheme(.dark)
-}
+/*
+ #Preview {
+ ContentView(coins: Coin.mockCoins)
+ .preferredColorScheme(.dark)
+ }
+ */
