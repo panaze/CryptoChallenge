@@ -8,12 +8,9 @@
 import SwiftUI
 
 struct CoinDetailsView: View {
-    let coin: Coin
-    let news: [NewsArticle] = NewsArticle.mockNewsArray
+    @ObservedObject var viewModel: CoinDetailViewModel
     
     @State private var selectedSegment: CoinDetailSegment = .overview
-    @State private var isFavorite: Bool = true
-    @State private var internet: Bool = true
     
     var body: some View {
         ZStack{
@@ -22,7 +19,7 @@ struct CoinDetailsView: View {
             
             VStack(alignment: .center, spacing: 20) {
                 
-                RoundedImageView(imageData: coin.imageData, fallbackURL: coin.image, assetName: nil)
+                RoundedImageView(imageData: viewModel.coin.imageData, fallbackURL: viewModel.coin.image, assetName: nil)
                 
                 HStack(alignment: .center) {
                     VStack(alignment: .leading, spacing: 5){
@@ -31,7 +28,7 @@ struct CoinDetailsView: View {
                         
                         HStack {
                             
-                            if let price = coin.currentPrice {
+                            if let price = viewModel.coin.currentPrice {
                                 
                                 Text(formatCoinValue(price,
                                                      displayMode: .row,
@@ -42,7 +39,7 @@ struct CoinDetailsView: View {
                             
                             
                             HStack {
-                                if let changePercentage = coin.priceChangePercentage24h {
+                                if let changePercentage = viewModel.coin.priceChangePercentage24h {
                                     Text("\(formatPercentageValue(changePercentage))")
                                         .foregroundColor(.black)
                                         .fontWeight(.semibold)
@@ -66,14 +63,18 @@ struct CoinDetailsView: View {
                     
                     Spacer()
                     
-                    FavoritesButton(isFavorite: $isFavorite, action: {
-                        print("Here goes the ViewModel action to toggle!")
+                    
+                    FavoritesButton(isFavorite: $viewModel.coin.isFavorite, action: {
+                        viewModel.toggleFavorite()
                     })
                     
                 }
                 
                 ScrollView {
+
                     VStack(alignment: .leading){
+                        
+                        
                         HStack(spacing: 0) {
                             ForEach(CoinDetailSegment.allCases, id: \.self) { segment in
                                 Button(action: {
@@ -117,50 +118,27 @@ struct CoinDetailsView: View {
                         Group {
                             switch selectedSegment {
                             case .overview:
-                                CoinOverviewSection(coin: coin)
+                                CoinOverviewSection(coin: viewModel.coin)
                             case .details:
-                                CoinDetailSection(coin: coin)
+                                CoinDetailSection(coin: viewModel.coin)
                                 
                             }
                         }
                         .transition(.opacity)
                         
-                    }
-                    .padding()
+                    }.padding()
                     .background(RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor")))
                     
                     
-                    if internet == true {
-                        VStack(alignment: .leading){
-                            Text("Related News")
-                                .font(.title2)
-                                .bold()
-                            
-                            
-                            ForEach(news) { article in
-                                NewsArticleRowView(article: article)
-                                    .padding(.top, 4)
-                                    .onTapGesture {
-                                        if let urlStr = article.url,
-                                           let url = URL(string: urlStr) {
-                                            UIApplication.shared.open(url)
-                                        }
-                                    }
-                            }
-                            
-                        }
-                        .padding()
-                        .background(RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor")))
-                    }
-                    
                 }
+                .safeAreaPadding(.top, 5)
                 .scrollIndicators(.hidden)
                 
                 
             }
         }
         .padding(.horizontal)
-        .navigationTitle(coin.name)
+        .navigationTitle(viewModel.coin.name)
         .navigationBarTitleDisplayMode(.inline)
     }
     
@@ -172,7 +150,9 @@ enum CoinDetailSegment: String, CaseIterable {
     case details = "Details"
 }
 
-#Preview {
-    CoinDetailsView(coin: Coin.mockCoin)
-        .preferredColorScheme(.dark)
-}
+/*
+ #Preview {
+ CoinDetailsView(coin: Coin.mockCoin)
+ .preferredColorScheme(.dark)
+ }
+ */

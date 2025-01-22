@@ -6,6 +6,8 @@
 //
 
 // StatSectionComponent.swift
+
+
 import SwiftUI
 
 struct StatSectionComponent: View {
@@ -18,8 +20,16 @@ struct StatSectionComponent: View {
                 .font(.headline)
             ForEach(items) { item in
                 HStack {
+                    if let iconName = item.iconName {
+                        Image(systemName: iconName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 16, height: 16)
+                            .foregroundColor(.white.opacity(0.8))
+                    }
                     Text(item.label)
                         .font(.subheadline)
+                        .foregroundColor(.white.opacity(0.8))
                     Spacer()
                     Text(item.value)
                         .font(.subheadline)
@@ -30,7 +40,6 @@ struct StatSectionComponent: View {
         }
     }
     
-    // Helper function to determine color based on percentage
     private func color(for item: StatItem) -> Color {
         guard item.isPercentage, let changePercentage = item.changePercentage else {
             return .primary
@@ -49,20 +58,19 @@ struct StatItem: Identifiable {
     let id = UUID()
     let label: String
     let value: String
+    let iconName: String?
     let isPercentage: Bool
     let changePercentage: Double?
 }
-
 
 #Preview {
     StatSectionComponent(
         title: "Key Market Stats",
         items: [
-            StatItem(label: "Rank", value: "#1", isPercentage: false, changePercentage: nil),
-            StatItem(label: "Market Cap", value: "$2,000,000,000", isPercentage: false, changePercentage: nil),
-            StatItem(label: "Total Volume", value: "$500,000,000", isPercentage: false, changePercentage: nil)
+            StatItem(label: "Rank", value: "#1", iconName: "star.fill", isPercentage: false, changePercentage: nil),
+            StatItem(label: "Market Cap", value: "$2,000,000,000", iconName: "chart.bar.fill", isPercentage: false, changePercentage: nil),
+            StatItem(label: "Total Volume", value: "$500,000,000", iconName: "arrow.up.arrow.down", isPercentage: true, changePercentage: 5.0)
         ]
     )
     .preferredColorScheme(.dark)
 }
-

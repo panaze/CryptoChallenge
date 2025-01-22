@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CoinRowComponent: View {
+    @Environment(\.modelContext) private var context
     let coin: Coin
     
     var body: some View {
@@ -20,26 +21,41 @@ struct CoinRowComponent: View {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFit()
+                        .clipShape(Circle())
+                        .frame(width: 32, height: 32)
+                        
                 } else {
                     // Download on the fly
                     AsyncImage(url: URL(string: coin.image ?? "")) { phase in
                         switch phase {
                         case .empty:
                             ProgressView()
+                                .clipShape(Circle())
+                                .frame(width: 32, height: 32)
                             
                         case .success(let image):
                             image
                                 .resizable()
                                 .scaledToFit()
+                                .clipShape(Circle())
+                                .frame(width: 32, height: 32)
+                                .onAppear {
+                                    Task {
+                                        if let url = URL(string: coin.image ?? ""),
+                                           let (downloadedData, _) = try? await URLSession.shared.data(from: url) {
+                                            coin.imageData = downloadedData
+                                            try? context.save()
+                                        }
+                                    }
+                                }
                             
                         default:
                             NotAvailableView()
+                                .frame(width: 32, height: 32)
                             
                         }
                     }
                     .clipShape(Circle())
-                    .frame(width: 35, height: 35)
-                    
                 }
                 
                 VStack(alignment: .leading) {
@@ -64,8 +80,7 @@ struct CoinRowComponent: View {
                 
                 if let changePercentage = coin.priceChangePercentage24h {
                     Text(formatPercentageValue(changePercentage))
-                        .foregroundColor(changePercentage > 0 ? .green : (changePercentage < 0 ? .red : .gray))
-                        .fontWeight(.light)
+                        .foregroundColor(changePercentage > 0 ? .green : (changePercentage < 0 ? .red : .gray))      
                         .font(.subheadline)
                 }
                 

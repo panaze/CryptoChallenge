@@ -50,13 +50,6 @@
             ReferencedContainer = "container:CryptoChallenge.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
-      <EnvironmentVariables>
-         <EnvironmentVariable
-            key = "NEWS_API_KEY"
-            value = "a501cb5f43d247ac86d5f2a35a1f2713"
-            isEnabled = "YES">
-         </EnvironmentVariable>
-      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
