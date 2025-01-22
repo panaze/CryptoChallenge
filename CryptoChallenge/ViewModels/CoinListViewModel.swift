@@ -12,7 +12,6 @@ import SwiftData
 class CoinListViewModel: ObservableObject {
     @Published var searchText: String = ""
     @Published var isLoading: Bool = false
-    @Published var errorMessage: String? = nil
     @Published var lastUpdated: Date? = nil
 
     var context: ModelContext
@@ -39,14 +38,13 @@ class CoinListViewModel: ObservableObject {
 
     func fetchCoins() async {
         isLoading = true
-        errorMessage = nil
         do {
             let fetchedCoins = try await coinService.fetchCoins()
             // Update local store with the latest
             persistCoinsToSwiftData(fetchedCoins)
             lastUpdated = Date()
         } catch {
-            errorMessage = "Error fetching coins: \(error.localizedDescription)"
+            print("Couldn't fetch fetching coins: \(error.localizedDescription)")
         }
         isLoading = false
     }
