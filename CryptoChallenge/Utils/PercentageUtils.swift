@@ -7,7 +7,7 @@
 
 import Foundation
 
-/// Formats a percentage value to two decimal places, adding a '+' sign for positive values.
+// Formats a percentage value to two decimal places, adding a '+' sign for positive values.
 func formatPercentageValue(_ value: Double?) -> String {
     guard let value = value else { return "N/A" }
     

@@ -9,12 +9,12 @@ import SwiftUI
 import SwiftData
 
 struct ContentView: View {
-
+    
     @Environment(\.modelContext) private var context
     
     // We'll store our main view model as a StateObject so it persists
     @StateObject private var viewModel: CoinListViewModel
-
+    
     // Network monitoring only in ContentView
     @StateObject private var networkMonitor = NetworkMonitor()
     
@@ -90,7 +90,7 @@ struct ContentView: View {
                                     .font(.caption)
                                     .fontWeight(.semibold)
                             }
-                           
+                            
                         }
                         
                     }
@@ -105,6 +105,19 @@ struct ContentView: View {
                                 await viewModel.fetchCoins()
                             }
                         }
+                        .mask(
+                            LinearGradient(
+                                gradient: Gradient(stops: [
+                                    .init(color: .clear, location: 0.0),
+                                    .init(color: .black, location: 0.02),
+                                    .init(color: .black, location: 0.98),
+                                    .init(color: .clear, location: 1.0)
+                                ]),
+                                startPoint: .top,
+                                endPoint: .bottom
+                            )
+                        )
+                        .safeAreaPadding(.top, 10)
                         .scrollIndicators(.hidden)
                         .scrollContentBackground(.hidden)
                         .navigationTitle("Explore")
@@ -128,7 +141,8 @@ struct ContentView: View {
         .onAppear{
             // Reassign actual context from environment
             viewModel.context = context
-
+            
+            
             // Optionally skip fetch if offline
             if networkMonitor.isConnected {
                 Task {
@@ -137,13 +151,14 @@ struct ContentView: View {
             } else {
                 print("Skipping fetch because offline")
             }
+            
         }
     }
 }
 
 /*
-#Preview {
-    ContentView(coins: Coin.mockCoins)
-        .preferredColorScheme(.dark)
-}
-*/
+ #Preview {
+ ContentView(coins: Coin.mockCoins)
+ .preferredColorScheme(.dark)
+ }
+ */

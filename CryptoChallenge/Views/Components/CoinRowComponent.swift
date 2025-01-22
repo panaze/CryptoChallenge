@@ -51,6 +51,7 @@ struct CoinRowComponent: View {
                             
                         default:
                             NotAvailableView()
+                                .frame(width: 32, height: 32)
                             
                         }
                     }
@@ -79,8 +80,7 @@ struct CoinRowComponent: View {
                 
                 if let changePercentage = coin.priceChangePercentage24h {
                     Text(formatPercentageValue(changePercentage))
-                        .foregroundColor(changePercentage > 0 ? .green : (changePercentage < 0 ? .red : .gray))
-                        .fontWeight(.light)
+                        .foregroundColor(changePercentage > 0 ? .green : (changePercentage < 0 ? .red : .gray))      
                         .font(.subheadline)
                 }
                 

@@ -71,6 +71,7 @@ struct CoinDetailsView: View {
                 }
                 
                 ScrollView {
+
                     VStack(alignment: .leading){
                         
                         
@@ -125,12 +126,12 @@ struct CoinDetailsView: View {
                         }
                         .transition(.opacity)
                         
-                    }
-                    .padding()
+                    }.padding()
                     .background(RoundedRectangle(cornerRadius: 15).fill(Color("BackgroundColor")))
                     
                     
                 }
+                .safeAreaPadding(.top, 5)
                 .scrollIndicators(.hidden)
                 
                 
@@ -150,8 +151,8 @@ enum CoinDetailSegment: String, CaseIterable {
 }
 
 /*
-#Preview {
-    CoinDetailsView(coin: Coin.mockCoin)
-        .preferredColorScheme(.dark)
-}
-*/
+ #Preview {
+ CoinDetailsView(coin: Coin.mockCoin)
+ .preferredColorScheme(.dark)
+ }
+ */

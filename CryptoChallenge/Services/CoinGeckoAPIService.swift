@@ -33,6 +33,7 @@ final class CoinGeckoService {
 
         //Decode into DTO
         let decoded = try JSONDecoder().decode([CoinDTO].self, from: data)
+       
         /*
         print("Decoded CoinGecko Response:")
         for coin in decoded {
