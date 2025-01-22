@@ -127,15 +127,7 @@ struct ContentView: View {
                 
                 
             }
-            .alert(isPresented: .constant(viewModel.errorMessage != nil)) {
-                Alert(
-                    title: Text("Error"),
-                    message: Text(viewModel.errorMessage ?? ""),
-                    dismissButton: .default(Text("OK")) {
-                        viewModel.errorMessage = nil
-                    }
-                )
-            }
+
             
         }
         .onAppear{
